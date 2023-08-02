@@ -183,6 +183,8 @@ class App:
 	def on_init(self):
 		global screens
 
+		kavaad.led_on(0, 0, 0)
+
 		pygame.init()
 		pygame.display.set_caption("Kaavad Bits")
 
@@ -211,8 +213,6 @@ class App:
 			if (_screenIndex >= len(self._screens)):
 				self._running = False
 				return
-			self._screenIndex = _screenIndex
-			self._screens[self._screenIndex].on_init()
 
 			####################################################################
 			# Lights
@@ -261,6 +261,9 @@ class App:
 				kavaad.led_on(9, 1, 1)
 			elif _screenIndex == 99:
 				kavaad.led_on(1, 1, 1)
+
+			self._screenIndex = _screenIndex
+			self._screens[self._screenIndex].on_init()
 
 
 	def on_render(self):

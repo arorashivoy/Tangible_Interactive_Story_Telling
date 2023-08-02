@@ -43,10 +43,8 @@ pear_uid = '20314420443520'
 # Functions
 ################################################################################
 def move_servo():
-	# ARDUINO_SERIAL.flush()
 	ARDUINO_SERIAL1.write(b'1')
 	time.sleep(0.1)
-	# ARDUINO_SERIAL.flush()
 
 def speaking(narrator):
 	if narrator == 1:
@@ -56,7 +54,6 @@ def speaking(narrator):
 	time.sleep(0.1)
 
 def nfc_read():
-	# while not uid_received:
 	if ARDUINO_SERIAL1.inWaiting() > 0:
 		uid = ARDUINO_SERIAL1.read(7)
 		uid = uid.hex()
