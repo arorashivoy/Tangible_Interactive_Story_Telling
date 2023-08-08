@@ -61,6 +61,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds1[0] = CRGB(0, 255, 0);
   }
   if (step == 2) {
@@ -69,6 +70,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds1[1] = CRGB(0, 255, 0);
   }
   if (step == 3) {
@@ -77,6 +79,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds1[2] = CRGB(0, 255, 0);
   }
   if (step == 4) {
@@ -85,6 +88,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds1[3] = CRGB(0, 255, 0);
   }
   if (step == 5 && !choice1) {
@@ -93,6 +97,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds1[4] = CRGB(0, 255, 0);
   }
   if (step == 6 && !choice1) {
@@ -101,6 +106,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds1[5] = CRGB(0, 255, 0);
   }
   if (step == 7 && !choice1) {
@@ -109,6 +115,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds1[6] = CRGB(0, 255, 0);
   }
   if (step == 8 && !choice1 && !choice2) {
@@ -117,6 +124,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds1[7] = CRGB(0, 255, 0);
   }
   if (step == 9 && !choice1 && !choice2) {
@@ -125,6 +133,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds1[8] = CRGB(0, 255, 0);
   }
   if (step == 8 && !choice1 && choice2) {
@@ -133,6 +142,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds3[0] = CRGB(0, 255, 0);
   }
   if (step == 9 && !choice1 && choice2) {
@@ -141,6 +151,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds3[1] = CRGB(0, 255, 0);
   }
   if (step == 5 && choice1) {
@@ -149,6 +160,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds4[0] = CRGB(0, 255, 0);
   }
   if (step == 6 && choice1) {
@@ -157,6 +169,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds4[1] = CRGB(0, 255, 0);
   }
   if (step == 7 && choice1) {
@@ -165,6 +178,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds4[2] = CRGB(0, 255, 0);
   }
   if (step == 8 && choice1 && !choice2) {
@@ -173,6 +187,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds2[0] = CRGB(0, 255, 0);
   }
   if (step == 9 && choice1 && !choice2) {
@@ -181,6 +196,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds2[0] = CRGB(0, 255, 0);
   }
   if (step == 8 && choice1 && choice2) {
@@ -189,6 +205,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds4[3] = CRGB(0, 255, 0);
   }
   if (step == 9 && choice1 && choice2) {
@@ -197,6 +214,7 @@ void loop() {
     }
     FastLED.show();
     delay(300);
+    on = !on;
     leds4[4] = CRGB(0, 255, 0);
   }
 
