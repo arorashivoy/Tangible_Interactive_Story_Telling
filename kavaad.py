@@ -47,7 +47,7 @@ def move_lower_servo():
 
 
 def move_upper_servo():
-    global servo
+    global SERVO
     global duty, clockwise
 
     if duty == 7:
@@ -60,12 +60,12 @@ def move_upper_servo():
     else:
         duty -= 1
 
-    servo.ChangeDutyCycle(duty)
+    SERVO.ChangeDutyCycle(duty)
     time.sleep(0.13)
 
 
 def speaking(narrator):
-    global servo
+    global SERVO
     global clockwise
     if narrator == 1:
         move_upper_servo()
@@ -99,7 +99,7 @@ def led_on(step: int, choice1: bool, choice2: bool):
 # INIT and CLEANUP
 ################################################################################
 def init():
-    global servo
+    global SERVO
     global duty, clockwise
     global ARDUINO_SERIAL1, ARDUINO_SERIAL2
 
@@ -111,8 +111,8 @@ def init():
     ARDUINO_SERIAL2 = serial.Serial('/dev/ttyUSB1', 115200)
     ARDUINO_SERIAL1 = serial.Serial('/dev/ttyUSB0', 115200)
 
-    servo = GPIO.PWM(11, 50)
-    servo.start(0)
+    SERVO = GPIO.PWM(11, 50)
+    SERVO.start(0)
     duty = 2
     clockwise = True
 
@@ -122,10 +122,10 @@ def init():
 
 
 def cleanup():
-    global servo
+    global SERVO
     ARDUINO_SERIAL1.close()
     ARDUINO_SERIAL2.close()
-    servo.stop()
+    SERVO.stop()
     GPIO.cleanup()
 
 
