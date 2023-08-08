@@ -89,6 +89,8 @@ class ScreenNFC(Screen):
     def on_init(self):
         super().on_init()
 
+        kavaad.flush_nfc()
+
     def on_loop(self):
         if kavaad.check_next_botton(self._screenIndex):
             return self._screenIndex + 1
@@ -304,7 +306,7 @@ if __name__ == "__main__":
         ScreenAud(app, 13, "kaav/K8.png", ["kaav.png"], "kaav/K8.mp3", 1),
         ScreenAud(app, 14, "croc/C2.png", ["croc.png"], "croc/C2.mp3", 2),
         ScreenAud(app, 15, "kaav/K9.png", ["kaav.png"], "kaav/K9.mp3", 1),
-        ScreenNFC(app, 16, "trans/T8.png", ["kaav.png"], 0),
+        ScreenNFC(app, 16, "trans/T9.png", ["kaav.png"], 0),
         ScreenAud(app, 17, "monke/M1.png", ["monke.png"], "monke/M1.mp3", 2),
         ScreenNFC(app, 18, "trans/T5.png", ["kaav.png"], 0),
         ScreenAud(app, 19, "kaav/K10.png", ["kaav.png"], "kaav/K10.mp3", 1),
@@ -406,23 +408,8 @@ if __name__ == "__main__":
     ]
 
     app.on_init()
-    app.on_execute()
 
-
-"""
-Moral -
-	assets/audio/mor/
-					MoA.mp3
-					MoB.mp3
-					MoC.mp3
-					MoD.mp3
-
-	assets/audio/end/
-					ask.mp3	# ask your ques
-					EM.mp3	# ans
-					EK.mp3	# ans
-					EC.mp3	# ans
-
-	
-
-"""
+    try:
+        app.on_execute()
+    except KeyboardInterrupt:
+        app.on_cleanup()

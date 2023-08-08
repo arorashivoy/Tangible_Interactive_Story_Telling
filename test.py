@@ -1,9 +1,11 @@
 import kavaad
+import time
 
 kavaad.init()
 
 try:
     while True:
-        kavaad.speaking(1)
+        kavaad.read_successfully()
+        time.sleep(1)
 except KeyboardInterrupt:
     kavaad.cleanup()

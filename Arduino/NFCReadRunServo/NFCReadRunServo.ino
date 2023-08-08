@@ -7,13 +7,28 @@ SoftwareSerial SWSerial( 3, 2 ); // RX, TX
 
 Servo myServo;
 
+int angle = 90;
+bool clockwise = true;
+
 PN532_SWHSU pn532swhsu( SWSerial );
 PN532 nfc( pn532swhsu );
 
 void moveServo(){
-  myServo.write(180); // Move the servo to 180 degrees
-  delay(1000); // Wait for 1 second
-  myServo.write(90); // Move the servo back to its initial position (90 degrees)
+  if (angle == 90) {
+    clockwise = true;
+  }
+  else if (angle == 180) {
+    clockwise = false;
+  }
+
+  if (clockwise) {
+    angle += 5;
+  }
+  else {
+    angle -= 5;
+  }
+  myServo.write(angle);
+  delay(50); 
 }
 
 void setup(void) {

@@ -14,21 +14,20 @@ SERVO_PIN = 11
 # UIDs
 ################################################################################
 # Flowers - 1
-flower_uid = '1de50441011080'
+flower_uid = ['1de50441011080', '801de504410110', 'e504410110801d']
 
 # Stories - 2 - Story1, Story2, Story3, Story4
-story_block1_uid = '1dc12441011080'
-story_block2_uid = '20314420353520'
+story_block1_uid = ['1dc12441011080', '801dc124410110', 'c124410110801d']
 
 
 # Characters - Monkey, Crocodile
-monkey_uid = '1d1e1441011080'
-croc_uid = '1d313441011080'
+monkey_uid = ['1d1e1441011080', '801d1e14410110', '1e14410110801d']
+croc_uid = ['1d313441011080', '801d3134410110', '3134410110801d']
 
 # Fruits - 3 - Mango, Apple, Pear
-mango_uid = '1d82e440011080'
-apple_uid = '1db0e540011080'
-pear_uid = '1dd5f440011080'
+mango_uid = ['1d82e440011080', '801d82e4400110', '82e4400110801d']
+apple_uid = ['1db0e540011080', '801db0e5400110', 'b0e5400110801d']
+pear_uid = ['1dd5f440011080', '801dd5f4400110', 'd5f4400110801d']
 
 
 ################################################################################
@@ -36,7 +35,15 @@ pear_uid = '1dd5f440011080'
 ################################################################################
 def move_lower_servo():
     ARDUINO_SERIAL1.write(b'1')
-    time.sleep(0.1)
+    time.sleep(0.055)
+
+
+def read_successfully():
+    for _ in range(90, 181, 5):
+        move_lower_servo()
+
+    for _ in range(180, 89, -5):
+        move_lower_servo()
 
 
 def move_upper_servo():
@@ -65,15 +72,20 @@ def speaking(narrator):
 
     elif narrator == 2:
         move_lower_servo()
-    # time.sleep(0.1)
 
 
 def nfc_read():
     if ARDUINO_SERIAL1.inWaiting() > 0:
         uid = ARDUINO_SERIAL1.read(7)
         uid = uid.hex()
+        print(str(uid))
         return str(uid)
+    print("NO INPUT")
     return ""
+
+
+def flush_nfc():
+    ARDUINO_SERIAL1.flush()
 
 
 def led_on(step: int, choice1: bool, choice2: bool):
@@ -106,7 +118,7 @@ def init():
 
     SERVO = GPIO.PWM(11, 50)
     SERVO.start(0)
-    duty = 2
+    duty = 4
     clockwise = True
 
     ARDUINO_SERIAL1.flush()
@@ -116,9 +128,12 @@ def init():
 
 def cleanup():
     global SERVO
+    led_on(0, 0, 0)
+
     ARDUINO_SERIAL1.close()
     ARDUINO_SERIAL2.close()
     SERVO.stop()
+
     GPIO.cleanup()
 
 
@@ -137,50 +152,50 @@ def check_next_botton(screenIndex):
     # For nfc read screens
     # T1
     elif screenIndex in [2]:
-        if nfc_read() == story_block1_uid:
-            move_lower_servo()
+        if nfc_read() in story_block1_uid:
+            read_successfully()
             return True
         return False
 
     # T2, 9
-    elif screenIndex in [4, 35, 39, 48, 56, 60, 64, 72, 78, 83, 91, 96]:
-        if nfc_read() == monkey_uid:
-            move_lower_servo()
+    elif screenIndex in [4, 16, 35, 39, 48, 56, 60, 64, 72, 78, 83, 91, 96]:
+        if nfc_read() in monkey_uid:
+            read_successfully()
             return True
         return False
 
     # T3, 8
-    elif screenIndex in [6, 11, 20, 16, 37, 43, 53, 62, 74, 80, 93]:
-        if nfc_read() == croc_uid:
-            move_lower_servo()
+    elif screenIndex in [6, 11, 20, 37, 43, 53, 62, 74, 80, 93]:
+        if nfc_read() in croc_uid:
+            read_successfully()
             return True
         return False
 
     # T4
     elif screenIndex in [8]:
-        if nfc_read() == flower_uid:
-            move_lower_servo()
+        if nfc_read() in flower_uid:
+            read_successfully()
             return True
         return False
 
     # T5
     elif screenIndex in [18, 100]:
-        if nfc_read() == mango_uid:
-            move_lower_servo()
+        if nfc_read() in mango_uid:
+            read_successfully()
             return True
         return False
 
     # T6
     elif screenIndex in [106]:
-        if nfc_read() == apple_uid:
-            move_lower_servo()
+        if nfc_read() in apple_uid:
+            read_successfully()
             return True
         return False
 
     # T7
     elif screenIndex in [103]:
-        if nfc_read() == pear_uid:
-            move_lower_servo()
+        if nfc_read() in pear_uid:
+            read_successfully()
             return True
         return False
 
