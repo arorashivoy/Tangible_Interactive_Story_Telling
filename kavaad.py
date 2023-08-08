@@ -14,28 +14,21 @@ SERVO_PIN = 11
 # UIDs
 ################################################################################
 # Flowers - 1
-flower_uid = '20314420453520'
+flower_uid = '1de50441011080'
 
 # Stories - 2 - Story1, Story2, Story3, Story4
-story_block1_uid = '20314420433120'
+story_block1_uid = '1dc12441011080'
 story_block2_uid = '20314420353520'
-# story_block3_uid = '20314420 '
-# story_block4_uid = '20314420 '
 
-# Characters - Monkey, Deer, Jackal, Elephant, Mouse, Lion, Crocodile, Crow - 8
-monkey_uid = '20314420314520'
-crow_uid = '20314420423220'
-lion_uid = '2031442033120'
-croc_uid = '20314420333120'
-# dear_uid = '20314420 '
-# jackal_uid = '20314420 '
-# mouse_uid = '20314420 '
-# tortoise_uid = '20314420 '
+
+# Characters - Monkey, Crocodile
+monkey_uid = '1d1e1441011080'
+croc_uid = '1d313441011080'
 
 # Fruits - 3 - Mango, Apple, Pear
-mango_uid = '20314420383220'
-apple_uid = '20314420423020'
-pear_uid = '20314420443520'
+mango_uid = '1d82e440011080'
+apple_uid = '1db0e540011080'
+pear_uid = '1dd5f440011080'
 
 
 ################################################################################

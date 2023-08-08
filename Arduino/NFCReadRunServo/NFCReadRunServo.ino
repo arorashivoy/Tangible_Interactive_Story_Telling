@@ -17,8 +17,7 @@ void moveServo(){
 }
 
 void setup(void) {
-  Serial.begin(115200); // Use Serial1 for HSU communication
-  Serial.println("Hello!");
+  Serial.begin(115200);
   
   myServo.attach(9);
   myServo.write(90);
@@ -39,13 +38,12 @@ void loop(void) {
   success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength);
   
   if (success) {
-    Serial.write(uid);// Send UID to the Raspberry Pi
+    Serial.write(uid, uidLength);// Send UID to the Raspberry Pi
   }
 
   // Check for incoming commands from the Raspberry Pi
   while (Serial.available() > 0) {
     char command = Serial.read(); // Read the incoming command
-    
     // Process the command (in this case, the character '1' for servo movement)
     if (command == '1') {
       moveServo();
