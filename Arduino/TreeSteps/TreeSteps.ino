@@ -72,6 +72,10 @@ void loop() {
 
   }
   else if (step == 1 && choice1 == 1 && choice2 == 1) {
+    leds4[4] = CRGB(0, 255, 0);
+    leds3[1] = CRGB(0, 255, 0);
+    leds2[1] = CRGB(0, 255, 0);
+    leds1[8] = CRGB(0, 255, 0);
     FastLED.show();
   }
   else if (step == 1) {
