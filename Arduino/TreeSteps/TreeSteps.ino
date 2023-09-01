@@ -4,10 +4,10 @@
 #define LED_PIN1     7
 #define NUM_LEDS1    9
 
-#define LED_PIN2     6
+#define LED_PIN2     5
 #define NUM_LEDS2    2
 
-#define LED_PIN3     5
+#define LED_PIN3     6
 #define NUM_LEDS3    2
 
 #define LED_PIN4     4
