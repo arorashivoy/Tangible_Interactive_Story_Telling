@@ -193,6 +193,7 @@ class ScreenCho(Screen):
 ###############################################################################
 class App:
     def __init__(self):
+        os.system("DISPLAY=:0 xrandr --output HDMI-1 --rotate left")
         self._running = True
         self.size = self.weight, self.height = SCREEN_WIDTH, SCREEN_HEIGHT
 
@@ -289,6 +290,7 @@ class App:
         self._screens[self._screenIndex].on_render()
 
     def on_cleanup(self):
+        os.system("DISPLAY=:0 xrandr --output HDMI-1 --rotate normal")
         kavaad.cleanup()
         pygame.quit()
 
@@ -415,13 +417,16 @@ if __name__ == "__main__":
         ScreenAud(app, 98, "kaav/K33.png", ["kaav.png"], "kaav/K33.mp3", 1),
         ScreenMor(app, 99, "mor/MoD.png", ["kaav.png"], "mor/MoD.mp3", 0),
         ScreenNFC(app, 100, "end/end.png", ["kaav.png"], 0),
-        ScreenAudWait(app, 101, "end/ask.png", ["kaav.png"], "end/ask.mp3", 300, 0),
+        ScreenAudWait(app, 101, "end/ask.png",
+                      ["kaav.png"], "end/ask.mp3", 300, 0),
         ScreenAud(app, 102, "end/EM.png", ["kaav.png"], "end/EM.mp3", 0),
         ScreenNFC(app, 103, "end/end.png", ["kaav.png"], 0),
-        ScreenAudWait(app, 104, "end/ask.png", ["kaav.png"], "end/ask.mp3", 300, 0),
+        ScreenAudWait(app, 104, "end/ask.png",
+                      ["kaav.png"], "end/ask.mp3", 300, 0),
         ScreenAud(app, 105, "end/EC.png", ["kaav.png"], "end/EC.mp3", 0),
         ScreenNFC(app, 106, "end/end.png", ["kaav.png"], 0),
-        ScreenAudWait(app, 107, "end/ask.png", ["kaav.png"], "end/ask.mp3", 300, 0),
+        ScreenAudWait(app, 107, "end/ask.png",
+                      ["kaav.png"], "end/ask.mp3", 300, 0),
         ScreenAud(app, 108, "end/EK.png", ["kaav.png"], "end/EK.mp3", 0),
 
 
@@ -437,3 +442,6 @@ if __name__ == "__main__":
         app.on_execute()
     except KeyboardInterrupt:
         app.on_cleanup()
+        exit(0)
+
+    app.on_cleanup()
