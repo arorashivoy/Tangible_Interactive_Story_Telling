@@ -6,8 +6,11 @@ import os
 ###############################################################################
 # Golbal Variables
 ###############################################################################
-SCREEN_WIDTH = 1080
-SCREEN_HEIGHT = 1840
+# SCREEN_WIDTH = 1080
+# SCREEN_HEIGHT = 1840
+SCREEN_HEIGHT = 1080
+SCREEN_WIDTH = 1840
+
 FRAME_RATE = 24
 BACKGROUND_COLOR = (51, 34, 28)
 
