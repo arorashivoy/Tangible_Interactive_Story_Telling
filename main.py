@@ -6,11 +6,8 @@ import os
 ###############################################################################
 # Golbal Variables
 ###############################################################################
-# SCREEN_WIDTH = 1080
-# SCREEN_HEIGHT = 1840
-SCREEN_HEIGHT = 1080
-SCREEN_WIDTH = 1840
-
+SCREEN_WIDTH = 1080
+SCREEN_HEIGHT = 1840
 FRAME_RATE = 24
 BACKGROUND_COLOR = (51, 34, 28)
 
@@ -63,7 +60,6 @@ class Screen:
         self._app.win.fill(BACKGROUND_COLOR)
         self._app.win.blit(self._text, (50, 1030))
         self._app.win.blit(self._img[self._imgIndex], (50, 50))
-        self._app.win.blit(pygame.transform.rotate(self._app.win, 90), (0, 0))
 
         pygame.display.update()
 
