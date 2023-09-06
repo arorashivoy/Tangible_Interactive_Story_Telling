@@ -113,8 +113,11 @@ def init():
     GPIO.setup(BUTTON_PIN_LEFT, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(SERVO_PIN, GPIO.OUT)
 
-    ARDUINO_SERIAL2 = serial.Serial('/dev/ttyUSB1', 115200)
-    ARDUINO_SERIAL1 = serial.Serial('/dev/ttyUSB0', 115200)
+    
+    # 1 - NFC Reader
+    # 2 - LED
+    ARDUINO_SERIAL1 = serial.Serial('/dev/ttyUSB1', 115200)
+    ARDUINO_SERIAL2 = serial.Serial('/dev/ttyUSB0', 115200)
 
     SERVO = GPIO.PWM(11, 50)
     SERVO.start(0)
