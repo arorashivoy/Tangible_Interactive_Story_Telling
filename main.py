@@ -126,7 +126,7 @@ class ScreenAud(Screen):
 
 class ScreenAudWait(ScreenAud):
     def __init__(self, win, screenIndex, text, img, audio, waitTime, narrator):
-        super().__init__(win, screenIndex, text, img, narrator)
+        super().__init__(win, screenIndex, text, img, audio, narrator)
         self._loopTime = 0
         self._audioName = audio
         self._waitTime = waitTime
