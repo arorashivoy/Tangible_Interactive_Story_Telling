@@ -2,17 +2,17 @@ import serial
 import time
 import RPi.GPIO as GPIO
 
-################################################################################
+###############################################################################
 # Global Variables
-################################################################################
-BUTTON_PIN_LEFT = 8
-BUTTON_PIN_RIGHT = 12
+###############################################################################
+BUTTON_PIN_LEFT = 12
+BUTTON_PIN_RIGHT = 8
 SERVO_PIN = 11
 
 
-################################################################################
+###############################################################################
 # UIDs
-################################################################################
+###############################################################################
 # Flowers - 1
 flower_uid = ['1de50441011080', '801de504410110', 'e504410110801d']
 
@@ -26,13 +26,13 @@ croc_uid = ['1d313441011080', '801d3134410110', '3134410110801d']
 
 # Fruits - 3 - Mango, Apple, Pear
 mango_uid = ['1d82e440011080', '801d82e4400110', '82e4400110801d']
-apple_uid = ['1db0e540011080', '801db0e5400110', 'b0e5400110801d']
+apple_uid = ['1db0e540011080', '801db0e5400110', 'b0e5400110801d', '1daee8d7001080']
 pear_uid = ['1dd5f440011080', '801dd5f4400110', 'd5f4400110801d']
 
 
-################################################################################
+###############################################################################
 # Functions
-################################################################################
+###############################################################################
 def move_lower_servo():
     ARDUINO_SERIAL1.write(b'1')
     time.sleep(0.055)
@@ -50,7 +50,7 @@ def move_upper_servo():
     global SERVO
     global duty, clockwise
 
-    if duty == 7:
+    if duty == 4:
         clockwise = False
     elif duty == 2:
         clockwise = True
@@ -61,7 +61,7 @@ def move_upper_servo():
         duty -= 1
 
     SERVO.ChangeDutyCycle(duty)
-    time.sleep(0.13)
+    time.sleep(0.3)
 
 
 def speaking(narrator):
@@ -79,13 +79,15 @@ def nfc_read():
         uid = ARDUINO_SERIAL1.read(7)
         uid = uid.hex()
         print(str(uid))
+        flush_nfc()
         return str(uid)
     print("NO INPUT")
-    return ""
+    return "NO INPUT"
 
 
 def flush_nfc():
     ARDUINO_SERIAL1.flush()
+    time.sleep(0.055)
 
 
 def led_on(step: int, choice1: bool, choice2: bool):
@@ -100,9 +102,9 @@ def led_on(step: int, choice1: bool, choice2: bool):
     time.sleep(0.1)
 
 
-################################################################################
+###############################################################################
 # INIT and CLEANUP
-################################################################################
+###############################################################################
 def init():
     global SERVO
     global duty, clockwise
@@ -113,9 +115,8 @@ def init():
     GPIO.setup(BUTTON_PIN_LEFT, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(SERVO_PIN, GPIO.OUT)
 
-    
-    # 1 - NFC Reader
-    # 2 - LED
+    # ARDUINO_SERIAL1 - NFC Reader
+    # ARDUINO_SERIAL2 - LED
     ARDUINO_SERIAL1 = serial.Serial('/dev/ttyUSB1', 115200)
     ARDUINO_SERIAL2 = serial.Serial('/dev/ttyUSB0', 115200)
 
@@ -140,72 +141,73 @@ def cleanup():
     GPIO.cleanup()
 
 
-################################################################################
+###############################################################################
 # Next Button
-################################################################################
+###############################################################################
 def check_next_botton(screenIndex):
     # For right button
-    if screenIndex in []:
-        return GPIO.input(BUTTON_PIN_RIGHT)
+    if screenIndex in [-2]:
+        return not GPIO.input(BUTTON_PIN_RIGHT)
 
     # For left button
-    if screenIndex in []:
-        return GPIO.input(BUTTON_PIN_LEFT)
+    elif screenIndex in [-3]:
+        return not GPIO.input(BUTTON_PIN_LEFT)
 
     # For nfc read screens
     # T1
     elif screenIndex in [2]:
         if nfc_read() in story_block1_uid:
-            read_successfully()
+            # read_successfully()
             return True
         return False
 
     # T2, 9
     elif screenIndex in [4, 16, 35, 39, 48, 56, 60, 64, 72, 78, 83, 91, 96]:
         if nfc_read() in monkey_uid:
-            read_successfully()
+            # read_successfully()
             return True
         return False
 
     # T3, 8
     elif screenIndex in [6, 11, 20, 37, 43, 53, 62, 74, 80, 93]:
         if nfc_read() in croc_uid:
-            read_successfully()
+            # read_successfully()
             return True
         return False
 
     # T4
     elif screenIndex in [8]:
         if nfc_read() in flower_uid:
-            read_successfully()
+            # read_successfully()
             return True
         return False
 
     # T5
     elif screenIndex in [18, 100]:
         if nfc_read() in mango_uid:
-            read_successfully()
+            # read_successfully()
             return True
         return False
 
     # T6
     elif screenIndex in [106]:
         if nfc_read() in apple_uid:
-            read_successfully()
+            # read_successfully()
             return True
         return False
 
     # T7
     elif screenIndex in [103]:
         if nfc_read() in pear_uid:
-            read_successfully()
+            # read_successfully()
             return True
         return False
 
     # For Choice Screen
-    elif screenIndex in [25, 33, 77]:
-        if GPIO.input(BUTTON_PIN_LEFT):
+    elif screenIndex in [-1, 25, 33, 77]:
+        print(not GPIO.input(BUTTON_PIN_LEFT), not GPIO.input(BUTTON_PIN_RIGHT))
+        if not GPIO.input(BUTTON_PIN_LEFT):
             return -1
-        elif GPIO.input(BUTTON_PIN_RIGHT):
+        elif not GPIO.input(BUTTON_PIN_RIGHT):
             return 1
         return 0

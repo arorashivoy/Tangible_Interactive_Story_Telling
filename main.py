@@ -193,14 +193,14 @@ class ScreenCho(Screen):
 ###############################################################################
 class App:
     def __init__(self):
-        os.system("DISPLAY=:0 xrandr --output HDMI-1 --rotate left")
+        # os.system("DISPLAY=:0 xrandr --output HDMI-1 --rotate left")
         self._running = True
         self.size = self.weight, self.height = SCREEN_WIDTH, SCREEN_HEIGHT
 
         self.win = pygame.display.set_mode(
             self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
 
-        self._screenIndex = 0
+        self._screenIndex = -1
 
     def on_init(self):
         global screens
@@ -213,9 +213,13 @@ class App:
         self._running = True
 
         self._screens = screens
-        self._screens[self._screenIndex].on_init()
+        # self._screens[self._screenIndex].on_init()
 
     def on_event(self, event):
+        # Blank Screen
+        if self._screenIndex == -1:
+            return
+
         if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
             self._running = False
 
@@ -229,6 +233,14 @@ class App:
             self._screens[self._screenIndex].on_init()
 
     def on_loop(self):
+        # Blank Screen
+        if self._screenIndex == -1:
+            # print(kavaad.check_next_botton(self._screenIndex))
+            if kavaad.check_next_botton(self._screenIndex) != 0:
+                self._screenIndex = 0
+                self._screens[self._screenIndex].on_init()
+            return
+
         _screenIndex = self._screens[self._screenIndex].on_loop()
         if _screenIndex != self._screenIndex:
             if (_screenIndex >= len(self._screens)):
@@ -287,10 +299,16 @@ class App:
             self._screens[self._screenIndex].on_init()
 
     def on_render(self):
+        # Blank Screen
+        if self._screenIndex == -1:
+            self.win.fill(BACKGROUND_COLOR)
+            pygame.display.update()
+            return
+
         self._screens[self._screenIndex].on_render()
 
     def on_cleanup(self):
-        os.system("DISPLAY=:0 xrandr --output HDMI-1 --rotate normal")
+        # os.system("DISPLAY=:0 xrandr --output HDMI-1 --rotate normal")
         kavaad.cleanup()
         pygame.quit()
 
@@ -334,18 +352,15 @@ if __name__ == "__main__":
         ScreenNFC(app, 20, "trans/T3.png", ["kaav.png"], 0),
         ScreenAud(app, 21, "kaav/K11.png", ["kaav.png"], "kaav/K11.mp3", 1),
         ScreenAud(app, 22, "kaav/K12.png", ["kaav.png"], "kaav/K12.mp3", 1),
-        ScreenAud(app, 23, "crocwife/W1.png",
-                  ["crocwife.png"], "crocwife/W1.mp3", 0),
+        ScreenAud(app, 23, "crocwife/W1.png", ["crocwife.png"], "crocwife/W1.mp3", 0),
         ScreenAud(app, 24, "kaav/K13.png", ["kaav.png"], "kaav/K13.mp3", 1),
         ScreenCho(app, 25, "trans/T10.png", ["kaav.png"], 26, 68, 0),
         ScreenAud(app, 26, "kaav/K14.png", ["kaav.png"], "kaav/K14.mp3", 1),
         ScreenAud(app, 27, "croc/C3.png", ["croc.png"], "croc/C3.mp3", 2),
-        ScreenAud(app, 28, "crocwife/W2.png",
-                  ["crocwife.png"], "crocwife/W2.mp3", 0),
+        ScreenAud(app, 28, "crocwife/W2.png", ["crocwife.png"], "crocwife/W2.mp3", 0),
         ScreenAud(app, 29, "kaav/K15.png", ["kaav.png"], "kaav/K15.mp3", 1),
         ScreenAud(app, 30, "croc/C4.png", ["croc.png"], "croc/C4.mp3", 2),
-        ScreenAud(app, 31, "crocwife/W3.png",
-                  ["crocwife.png"], "crocwife/W3.mp3", 0),
+        ScreenAud(app, 31, "crocwife/W3.png", ["crocwife.png"], "crocwife/W3.mp3", 0),
         ScreenAud(app, 32, "kaav/K16.png", ["kaav.png"], "kaav/K16.mp3", 1),
         ScreenCho(app, 33, "trans/T11.png", ["kaav.png"], 34, 59, 0),
         ScreenAud(app, 34, "kaav/K17.png", ["kaav.png"], "kaav/K17.mp3", 1),
@@ -384,8 +399,7 @@ if __name__ == "__main__":
         ScreenMor(app, 67, "mor/MoB.png", ["kaav.png"], "mor/MoB.mp3", 0),
         ScreenAud(app, 68, "kaav/K26.png", ["kaav.png"], "kaav/K26.mp3", 1),
         ScreenAud(app, 69, "croc/C10.png", ["croc.png"], "croc/C10.mp3", 2),
-        ScreenAud(app, 70, "crocwife/W4.png",
-                  ["crocwife.png"], "crocwife/W4.mp3", 0),
+        ScreenAud(app, 70, "crocwife/W4.png", ["crocwife.png"], "crocwife/W4.mp3", 0),
         ScreenAud(app, 71, "kaav/K27.png", ["kaav.png"], "kaav/K27.mp3", 1),
         ScreenNFC(app, 72, "trans/T9.png", ["kaav.png"], 0),
         ScreenAud(app, 73, "monke/M10.png", ["monke.png"], "monke/M10.mp3", 2),
@@ -402,8 +416,7 @@ if __name__ == "__main__":
         ScreenAud(app, 84, "monke/M12.png", ["monke.png"], "monke/M12.mp3", 2),
         ScreenAud(app, 85, "kaav/K30.png", ["kaav.png"], "kaav/K30.mp3", 1),
         ScreenAud(app, 86, "monke/M13.png", ["monke.png"], "monke/M13.mp3", 2),
-        ScreenAud(app, 87, "crocwife/W5.png",
-                  ["crocwife.png"], "crocwife/W5.mp3", 0),
+        ScreenAud(app, 87, "crocwife/W5.png", ["crocwife.png"], "crocwife/W5.mp3", 0),
         ScreenAud(app, 88, "monke/M14.png", ["monke.png"], "monke/M14.mp3", 2),
         ScreenAud(app, 89, "kaav/K31.png", ["kaav.png"], "kaav/K31.mp3", 1),
         ScreenMor(app, 90, "mor/MoC.png", ["kaav.png"], "mor/MoC.mp3", 0),
@@ -417,16 +430,13 @@ if __name__ == "__main__":
         ScreenAud(app, 98, "kaav/K33.png", ["kaav.png"], "kaav/K33.mp3", 1),
         ScreenMor(app, 99, "mor/MoD.png", ["kaav.png"], "mor/MoD.mp3", 0),
         ScreenNFC(app, 100, "end/end.png", ["kaav.png"], 0),
-        ScreenAudWait(app, 101, "end/ask.png",
-                      ["kaav.png"], "end/ask.mp3", 300, 0),
+        ScreenAudWait(app, 101, "end/ask.png", ["kaav.png"], "end/ask.mp3", 600, 0),
         ScreenAud(app, 102, "end/EM.png", ["kaav.png"], "end/EM.mp3", 0),
         ScreenNFC(app, 103, "end/end.png", ["kaav.png"], 0),
-        ScreenAudWait(app, 104, "end/ask.png",
-                      ["kaav.png"], "end/ask.mp3", 300, 0),
+        ScreenAudWait(app, 104, "end/ask.png", ["kaav.png"], "end/ask.mp3", 600, 0),
         ScreenAud(app, 105, "end/EC.png", ["kaav.png"], "end/EC.mp3", 0),
         ScreenNFC(app, 106, "end/end.png", ["kaav.png"], 0),
-        ScreenAudWait(app, 107, "end/ask.png",
-                      ["kaav.png"], "end/ask.mp3", 300, 0),
+        ScreenAudWait(app, 107, "end/ask.png", ["kaav.png"], "end/ask.mp3", 600, 0),
         ScreenAud(app, 108, "end/EK.png", ["kaav.png"], "end/EK.mp3", 0),
 
 

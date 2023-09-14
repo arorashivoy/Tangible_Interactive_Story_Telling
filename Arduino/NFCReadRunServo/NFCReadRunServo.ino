@@ -28,7 +28,7 @@ void moveServo(){
     angle -= 5;
   }
   myServo.write(angle);
-  delay(50); 
+  delay(60); 
 }
 
 void setup(void) {
@@ -54,6 +54,10 @@ void loop(void) {
   
   if (success) {
     Serial.write(uid, uidLength);// Send UID to the Raspberry Pi
+    for (int i = 0; i < 45; ++i) {
+        moveServo();
+    }
+    delay(1);
   }
 
   // Check for incoming commands from the Raspberry Pi
@@ -62,6 +66,7 @@ void loop(void) {
     // Process the command (in this case, the character '1' for servo movement)
     if (command == '1') {
       moveServo();
+      Serial.flush();
     }
   }
 
