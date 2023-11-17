@@ -54,8 +54,6 @@ class Screen:
         if (self._time % FRAME_RATE == 0):
             self._imgIndex = (self._imgIndex + 1) % len(self._img)
 
-        # if (self._time % (FRAME_RATE // 2) == 0):
-
     def on_render(self):
         self._app.win.fill(BACKGROUND_COLOR)
         self._app.win.blit(self._text, (50, 1030))
@@ -89,8 +87,6 @@ class ScreenNFC(Screen):
 
     def on_init(self):
         super().on_init()
-
-        # kavaad.flush_nfc()
 
     def on_loop(self):
         if kavaad.check_next_botton(self._screenIndex):
@@ -197,7 +193,6 @@ class App:
         self.win = pygame.display.set_mode(
             self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
 
-        self._screenIndex = -1
 
     def on_init(self):
         global screens
@@ -210,6 +205,7 @@ class App:
         self._running = True
 
         self._screens = screens
+        self._screenIndex = -1
         if self._screenIndex != -1:
             self._screens[self._screenIndex].on_init()
 
@@ -319,7 +315,6 @@ class App:
             kavaad.led_on(9, 1, 1)
         elif _screenIndex == 99:
             kavaad.led_on(1, 1, 1)
-
 
 
 ###############################################################################
@@ -452,6 +447,5 @@ if __name__ == "__main__":
     try:
         app.on_execute()
     except:
-        pass
-    finally:
         app.on_cleanup()
+        exit(0)
