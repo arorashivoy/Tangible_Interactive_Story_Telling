@@ -51,12 +51,15 @@ void loop(void) {
   uint8_t uid[] = { 0, 0, 0, 0, 0, 0, 0 };
   uint8_t uidLength;
   success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength);
-  
+
   if (success) {
-    Serial.write(uid, uidLength);// Send UID to the Raspberry Pi
-    for (int i = 0; i < 45; ++i) {
+    // Serial.write(uid, uidLength);// Send UID to the Raspberry Pi
+    for (int i = 0; i < 36; ++i) {
         moveServo();
     }
+
+    
+    Serial.flush();
     delay(1);
   }
 
@@ -69,6 +72,12 @@ void loop(void) {
       Serial.flush();
     }
   }
+
+
+
+    // for (int i = 0; i < 36; ++i) {
+    //     moveServo();
+    // }
 
 
   

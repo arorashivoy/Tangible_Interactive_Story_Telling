@@ -8,6 +8,8 @@ import RPi.GPIO as GPIO
 BUTTON_PIN_LEFT = 12
 BUTTON_PIN_RIGHT = 8
 SERVO_PIN = 11
+NFC = '/dev/ttyUSB1'
+LED = '/dev/ttyUSB0'
 
 
 ###############################################################################
@@ -105,6 +107,19 @@ def led_on(step: int, choice1: bool, choice2: bool):
 ###############################################################################
 # INIT and CLEANUP
 ###############################################################################
+def resetArduino():
+    global ARDUINO_SERIAL1
+
+    ARDUINO_SERIAL1.flush()
+    # ARDUINO_SERIAL2.flush()
+
+    ARDUINO_SERIAL1.close()
+    # ARDUINO_SERIAL2.close()
+
+    ARDUINO_SERIAL1 = serial.Serial(NFC, 115200)
+    time.sleep(0.2)
+
+
 def init():
     global SERVO
     global duty, clockwise
@@ -117,8 +132,8 @@ def init():
 
     # ARDUINO_SERIAL1 - NFC Reader
     # ARDUINO_SERIAL2 - LED
-    ARDUINO_SERIAL1 = serial.Serial('/dev/ttyUSB1', 115200)
-    ARDUINO_SERIAL2 = serial.Serial('/dev/ttyUSB0', 115200)
+    ARDUINO_SERIAL1 = serial.Serial(NFC, 115200)
+    ARDUINO_SERIAL2 = serial.Serial(LED, 115200)
 
     SERVO = GPIO.PWM(11, 50)
     SERVO.start(0)
@@ -133,6 +148,7 @@ def init():
 def cleanup():
     global SERVO
     led_on(0, 0, 0)
+    time.sleep(0.2)
 
     ARDUINO_SERIAL1.close()
     ARDUINO_SERIAL2.close()
@@ -205,9 +221,11 @@ def check_next_botton(screenIndex):
 
     # For Choice Screen
     elif screenIndex in [-1, 25, 33, 77]:
-        print(not GPIO.input(BUTTON_PIN_LEFT), not GPIO.input(BUTTON_PIN_RIGHT))
         if not GPIO.input(BUTTON_PIN_LEFT):
+            print("LEFT")
             return -1
         elif not GPIO.input(BUTTON_PIN_RIGHT):
+            print("RIGHT")
             return 1
+        print("NONE")
         return 0

@@ -1,7 +1,7 @@
 import pygame
 import kavaad
 import os
-
+import time
 
 ###############################################################################
 # Golbal Variables
@@ -90,10 +90,12 @@ class ScreenNFC(Screen):
     def on_init(self):
         super().on_init()
 
-        kavaad.flush_nfc()
+        # kavaad.flush_nfc()
 
     def on_loop(self):
         if kavaad.check_next_botton(self._screenIndex):
+            kavaad.resetArduino()
+            time.sleep(0.3)
             return self._screenIndex + 1
 
         super().on_loop()
@@ -174,18 +176,13 @@ class ScreenCho(Screen):
 
     def on_loop(self):
         if kavaad.check_next_botton(self._screenIndex) == -1:
-            self._isClicking = True
             self._nextIndex = self._leftChoice
         elif kavaad.check_next_botton(self._screenIndex) == 1:
-            self._isClicking = True
             self._nextIndex = self._rightChoice
-        elif self._isClicking:
-            self._isClicking = False
-            return self._nextIndex
 
         super().on_loop()
 
-        return self._screenIndex
+        return self._nextIndex
 
 
 ###############################################################################
@@ -213,7 +210,8 @@ class App:
         self._running = True
 
         self._screens = screens
-        # self._screens[self._screenIndex].on_init()
+        if self._screenIndex != -1:
+            self._screens[self._screenIndex].on_init()
 
     def on_event(self, event):
         # Blank Screen
@@ -235,7 +233,6 @@ class App:
     def on_loop(self):
         # Blank Screen
         if self._screenIndex == -1:
-            # print(kavaad.check_next_botton(self._screenIndex))
             if kavaad.check_next_botton(self._screenIndex) != 0:
                 self._screenIndex = 0
                 self._screens[self._screenIndex].on_init()
@@ -247,53 +244,7 @@ class App:
                 self._running = False
                 return
 
-            ###################################################################
-            # Lights
-            ###################################################################
-            if _screenIndex == 3:
-                kavaad.led_on(1, 0, 0)
-            elif _screenIndex == 9:
-                kavaad.led_on(2, 0, 0)
-            elif _screenIndex == 19:
-                kavaad.led_on(3, 0, 0)
-            elif _screenIndex == 24:
-                kavaad.led_on(4, 0, 0)
-            elif _screenIndex == 26:
-                kavaad.led_on(5, 0, 0)
-            elif _screenIndex == 30:
-                kavaad.led_on(6, 0, 0)
-            elif _screenIndex == 32:
-                kavaad.led_on(7, 0, 0)
-            elif _screenIndex == 34:
-                kavaad.led_on(8, 0, 0)
-            elif _screenIndex == 44:
-                kavaad.led_on(9, 0, 0)
-            elif _screenIndex == 58:
-                kavaad.led_on(1, 1, 1)
-            elif _screenIndex == 59:
-                kavaad.led_on(8, 0, 1)
-            elif _screenIndex == 65:
-                kavaad.led_on(9, 0, 1)
-            elif _screenIndex == 67:
-                kavaad.led_on(1, 1, 1)
-            elif _screenIndex == 68:
-                kavaad.led_on(5, 1, 0)
-            elif _screenIndex == 73:
-                kavaad.led_on(6, 1, 0)
-            elif _screenIndex == 76:
-                kavaad.led_on(7, 1, 0)
-            elif _screenIndex == 79:
-                kavaad.led_on(8, 1, 0)
-            elif _screenIndex == 84:
-                kavaad.led_on(9, 1, 0)
-            elif _screenIndex == 90:
-                kavaad.led_on(1, 1, 1)
-            elif _screenIndex == 92:
-                kavaad.led_on(8, 1, 1)
-            elif _screenIndex == 94:
-                kavaad.led_on(9, 1, 1)
-            elif _screenIndex == 99:
-                kavaad.led_on(1, 1, 1)
+            self.led_on(_screenIndex)
 
             self._screenIndex = _screenIndex
             self._screens[self._screenIndex].on_init()
@@ -319,6 +270,56 @@ class App:
             self.on_loop()
             self.on_render()
         self.on_cleanup()
+
+    ###########################################################################
+    # Lights
+    ###########################################################################
+    def led_on(self, _screenIndex):
+        if _screenIndex == 3:
+            kavaad.led_on(1, 0, 0)
+        elif _screenIndex == 9:
+            kavaad.led_on(2, 0, 0)
+        elif _screenIndex == 19:
+            kavaad.led_on(3, 0, 0)
+        elif _screenIndex == 24:
+            kavaad.led_on(4, 0, 0)
+        elif _screenIndex == 26:
+            kavaad.led_on(5, 0, 0)
+        elif _screenIndex == 30:
+            kavaad.led_on(6, 0, 0)
+        elif _screenIndex == 32:
+            kavaad.led_on(7, 0, 0)
+        elif _screenIndex == 34:
+            kavaad.led_on(8, 0, 0)
+        elif _screenIndex == 44:
+            kavaad.led_on(9, 0, 0)
+        elif _screenIndex == 58:
+            kavaad.led_on(1, 1, 1)
+        elif _screenIndex == 59:
+            kavaad.led_on(8, 0, 1)
+        elif _screenIndex == 65:
+            kavaad.led_on(9, 0, 1)
+        elif _screenIndex == 67:
+            kavaad.led_on(1, 1, 1)
+        elif _screenIndex == 68:
+            kavaad.led_on(5, 1, 0)
+        elif _screenIndex == 73:
+            kavaad.led_on(6, 1, 0)
+        elif _screenIndex == 76:
+            kavaad.led_on(7, 1, 0)
+        elif _screenIndex == 79:
+            kavaad.led_on(8, 1, 0)
+        elif _screenIndex == 84:
+            kavaad.led_on(9, 1, 0)
+        elif _screenIndex == 90:
+            kavaad.led_on(1, 1, 1)
+        elif _screenIndex == 92:
+            kavaad.led_on(8, 1, 1)
+        elif _screenIndex == 94:
+            kavaad.led_on(9, 1, 1)
+        elif _screenIndex == 99:
+            kavaad.led_on(1, 1, 1)
+
 
 
 ###############################################################################
@@ -450,8 +451,7 @@ if __name__ == "__main__":
 
     try:
         app.on_execute()
-    except KeyboardInterrupt:
+    except:
+        pass
+    finally:
         app.on_cleanup()
-        exit(0)
-
-    app.on_cleanup()
