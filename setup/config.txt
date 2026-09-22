@@ -5,8 +5,6 @@
 # uncomment if you get no picture on HDMI for a default "safe" mode
 #hdmi_safe=1
 
-# setting mac address to my address to fool it department
-smsc95xx.macaddr=dc:a6:32:1b:82:63
 
 # uncomment the following to adjust overscan. Use positive numbers if console
 # goes off screen, and negative if there is too much border
